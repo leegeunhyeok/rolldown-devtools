@@ -1,4 +1,14 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import { defineNuxtConfig } from 'nuxt/config';
+
+if (!fs.existsSync(path.resolve(import.meta.dirname, '..', 'rolldown-data.json'))) {
+  throw new Error(
+    '`rolldown-data.json` not found\n' +
+      'Please run `yarn dev:prepare` to generate the `rolldown-data.json` file',
+  );
+}
 
 export default defineNuxtConfig({
   ssr: false,

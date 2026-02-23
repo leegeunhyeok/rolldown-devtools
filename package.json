@@ -26,11 +26,11 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "generate-data": "node --import @oxc-node/core/register generate.ts",
+    "generate-data": "LOGS_PATH=.data/logs.json META_PATH=.data/meta.json node --import @oxc-node/core/register generate.ts",
     "build": "yarn dev:prepare && ROLLDOWN_OPTIONS_VALIDATION=loose nuxi build src && tsdown",
     "build:debug": "NUXT_DEBUG_BUILD=true yarn run build",
     "dev": "DEBUG='vite:devtools:*' ROLLDOWN_OPTIONS_VALIDATION=loose nuxi dev src",
-    "dev:prepare": "nuxi prepare src",
+    "dev:prepare": "yarn generate-data && nuxi prepare src",
     "start": "nuxi preview src",
     "fmt": "oxfmt --check",
     "fmt:fix": "oxfmt",

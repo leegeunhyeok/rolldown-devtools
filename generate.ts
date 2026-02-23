@@ -3,6 +3,12 @@ import path from 'node:path';
 
 import { generateData } from './src/node';
 
+const dataPath = path.join(process.cwd(), 'rolldown-data.json');
+
+if (fs.existsSync(dataPath)) {
+  process.exit(0);
+}
+
 if (!process.env.LOGS_PATH || !process.env.META_PATH) {
   throw new Error('LOGS_PATH and META_PATH are required');
 }
@@ -12,6 +18,6 @@ const data = await generateData({
   metaPath: process.env.META_PATH,
 });
 
-fs.writeFileSync(path.join(process.cwd(), '.data/sample.json'), JSON.stringify(data));
+fs.writeFileSync(dataPath, JSON.stringify(data));
 
 console.log('Data generated successfully');
