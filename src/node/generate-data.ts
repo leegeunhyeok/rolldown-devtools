@@ -20,7 +20,7 @@ import type {
 import { diffLines } from 'diff';
 import { createDebug } from 'obug';
 
-import { RolldownData } from '../shared/types/data';
+import type { RolldownData } from '../shared/types/data';
 
 type ModuleBuildHookEvents = (Exclude<Event, 'StringRef'> &
   (

@@ -31,10 +31,10 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/',
     head: {
-      title: 'Rolldown DevTools',
+      title: 'Rolldown Analyzer',
       charset: 'utf-8',
       viewport: 'width=device-width,initial-scale=1',
-      meta: [{ name: 'description', content: 'Standalone DevTools for Rolldown' }],
+      meta: [{ name: 'description', content: 'Standalone Analyzer for Rolldown' }],
       link: [{ rel: 'icon', type: 'image/svg+xml', href: `/favicon.svg` }],
       htmlAttrs: {
         lang: 'en',

@@ -8344,9 +8344,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-devtools@workspace:.":
+"rolldown-analyzer@workspace:.":
   version: 0.0.0-use.local
-  resolution: "rolldown-devtools@workspace:."
+  resolution: "rolldown-analyzer@workspace:."
   dependencies:
     "@antfu/utils": "npm:^9.3.0"
     "@floating-ui/dom": "npm:^1.7.5"

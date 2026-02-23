@@ -1,18 +1,19 @@
 {
-  "name": "rolldown-devtools",
+  "name": "rolldown-analyzer",
   "version": "0.0.0",
-  "description": "Standalone DevTools for Rolldown",
+  "description": "Standalone Analyzer for Rolldown",
   "keywords": [
     "devtools",
+    "analyzer",
     "rolldown"
   ],
-  "homepage": "https://github.com/leegeunhyeok/rolldown-devtools#readme",
-  "bugs": "https://github.com/leegeunhyeok/rolldown-devtools/issues",
+  "homepage": "https://github.com/leegeunhyeok/rolldown-analyzer#readme",
+  "bugs": "https://github.com/leegeunhyeok/rolldown-analyzer/issues",
   "license": "MIT",
   "author": "leegeunhyeok <dev.ghlee@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leegeunhyeok/rolldown-devtools.git",
+    "url": "git+https://github.com/leegeunhyeok/rolldown-analyzer.git",
     "directory": "."
   },
   "files": [

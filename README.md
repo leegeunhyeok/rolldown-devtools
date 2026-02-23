@@ -1,6 +1,6 @@
-# Rolldown DevTools
+# Rolldown Analyzer
 
-Standalone DevTools for Rolldown
+Standalone Analyzer for Rolldown
 
 > [!IMPORTANT]
 > This project is still in development.
