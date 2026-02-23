@@ -20,6 +20,11 @@ interface DataTableItem {
 const dataTable = computed<DataTableItem[]>(() => {
   return [
     {
+      title: 'Build ID',
+      value: props.session.meta.session_id,
+      icon: 'i-ph-hash-duotone',
+    },
+    {
       title: 'Created At',
       // @ts-expect-error missing type
       value: new Date(props.session.meta.timestamp),

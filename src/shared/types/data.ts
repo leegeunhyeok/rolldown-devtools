@@ -5,10 +5,27 @@ import type {
   HookResolveIdCallStart,
   ModuleImport,
   PluginItem,
-  SessionMeta,
+  SessionMeta as BaseSessionMeta,
 } from '@rolldown/debug';
 
 export type { ModuleImport };
+
+export type SessionMeta = BaseSessionMeta & { session_id: string };
+
+export interface RolldownData {
+  meta: SessionMeta;
+  modules: Array<{
+    id: string;
+    imports?: ModuleImport[];
+    importers?: string[];
+    build_metrics?: ModuleBuildMetrics;
+  }>;
+  build_duration: number;
+  assets: RolldownAssetInfo[];
+  chunks: RolldownChunkInfo[];
+  packages: PackageInfo[];
+  plugin_build_metrics?: Record<string, PluginBuildMetrics>;
+}
 
 export interface BuildMetrics {
   plugin_name: string;

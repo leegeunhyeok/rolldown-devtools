@@ -20,6 +20,8 @@ import type {
 import { diffLines } from 'diff';
 import { createDebug } from 'obug';
 
+import { RolldownData } from '../shared/types/data';
+
 type ModuleBuildHookEvents = (Exclude<Event, 'StringRef'> &
   (
     | HookResolveIdCallStart
@@ -246,7 +248,7 @@ export async function generateData(options: GenerateDataOptions) {
   function handleEvent(raw: Event) {
     const event = {
       ...raw,
-      event_id: `${'timestamp' in raw ? raw.timestamp : 'x'}#${this.events.length}`,
+      event_id: `${'timestamp' in raw ? raw.timestamp : 'x'}#${eventIndex++}`,
     };
 
     if (event.action === 'BuildStart') {
@@ -435,7 +437,7 @@ export async function generateData(options: GenerateDataOptions) {
     pluginBuildMetricsObj[pluginId] = metrics;
   }
 
-  const analysisData = {
+  const analysisData: RolldownData = {
     meta,
     modules: modulesList,
     build_duration: build_end_time - build_start_time,
