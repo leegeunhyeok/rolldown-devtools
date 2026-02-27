@@ -12,16 +12,14 @@ export interface GenerateTemplateOptions {
 export async function generateTemplate(options: GenerateTemplateOptions): Promise<void> {
   const { logsPath, metaPath, outDir } = options;
 
-  // 1. generateData로 데이터 생성
   const data = await generateData({ logsPath, metaPath });
 
-  // 2. 출력 디렉토리 생성
   fs.mkdirSync(outDir, { recursive: true });
 
-  // 3. frontendPublicPath(dist/public)의 모든 파일을 outDir로 복사
+  // Copy built frontend static files to outDir
   copyDirSync(frontendPublicPath, outDir);
 
-  // 4. rolldown-data.json을 outDir에 작성
+  // Write generated data
   fs.writeFileSync(
     path.join(outDir, 'rolldown-data.json'),
     JSON.stringify(data),
