@@ -1,0 +1,38 @@
+{
+  "name": "rolldown-analyzer",
+  "version": "0.0.0",
+  "description": "Standalone Analyzer for Rolldown",
+  "keywords": [
+    "devtools",
+    "analyzer",
+    "rolldown"
+  ],
+  "homepage": "https://github.com/leegeunhyeok/rolldown-analyzer#readme",
+  "bugs": "https://github.com/leegeunhyeok/rolldown-analyzer/issues",
+  "license": "MIT",
+  "author": "leegeunhyeok <dev.ghlee@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leegeunhyeok/rolldown-analyzer.git",
+    "directory": "packages/rolldown-analyzer"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "bin": "./bin/cli.js",
+  "exports": {
+    "./cli": "./dist/cli.mjs",
+    "./node": "./dist/node.mjs",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.mts",
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "dependencies": {
+    "commander": "^14.0.3",
+    "diff": "^8.0.3",
+    "obug": "^2.1.1",
+    "pathe": "^2.0.3"
+  }
+}

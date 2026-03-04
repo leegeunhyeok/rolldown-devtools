@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { generateData } from './src/node';
+import { generateData } from './packages/rolldown-analyzer/src';
 
 const dataPath = path.join(process.cwd(), 'rolldown-data.json');
 

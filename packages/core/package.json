@@ -1,0 +1,19 @@
+{
+  "name": "@rolldown-analyzer/core",
+  "private": true,
+  "exports": {
+    ".": "./index.ts",
+    "./types": "./types/index.ts",
+    "./types/data": "./types/data.ts",
+    "./utils": "./utils/index.ts",
+    "./utils/filepath": "./utils/filepath.ts",
+    "./utils/guess-chunk-name": "./utils/guess-chunk-name.ts",
+    "./constants": "./constants.ts",
+    "./ui": "./ui/index.ts",
+    "./ui/composables/dark": "./ui/composables/dark.ts",
+    "./ui/utils/color": "./ui/utils/color.ts",
+    "./ui/utils/format": "./ui/utils/format.ts",
+    "./ui/unocss": "./ui/unocss/index.ts",
+    "./ui/components/*": "./ui/components/*"
+  }
+}

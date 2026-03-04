@@ -1,49 +1,28 @@
 {
-  "name": "rolldown-analyzer",
-  "version": "0.0.0",
-  "description": "Standalone Analyzer for Rolldown",
-  "keywords": [
-    "devtools",
-    "analyzer",
-    "rolldown"
-  ],
-  "homepage": "https://github.com/leegeunhyeok/rolldown-analyzer#readme",
-  "bugs": "https://github.com/leegeunhyeok/rolldown-analyzer/issues",
-  "license": "MIT",
-  "author": "leegeunhyeok <dev.ghlee@gmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/leegeunhyeok/rolldown-analyzer.git",
-    "directory": "."
-  },
-  "bin": {
-    "rolldown-analyzer": "./bin/cli.js"
-  },
-  "files": [
-    "bin",
-    "dist"
-  ],
+  "name": "rolldown-devtools",
+  "private": true,
   "type": "module",
-  "sideEffects": false,
-  "types": "./dist/index.d.mts",
-  "exports": {
-    ".": "./dist/node.mjs",
-    "./package.json": "./package.json"
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "prepare:app": "yarn generate-data && nuxi prepare packages/app",
+    "prepare:lite": "nuxi prepare packages/lite",
+    "generate-data": "LOGS_PATH=.data/devtools/logs.json META_PATH=.data/devtools/meta.json tsx generate.ts",
+    "dev:app": "ROLLDOWN_OPTIONS_VALIDATION=loose nuxi dev packages/app",
+    "dev:lite": "ROLLDOWN_OPTIONS_VALIDATION=loose nuxi dev packages/lite",
+    "build:app": "yarn prepare:app && ROLLDOWN_OPTIONS_VALIDATION=loose nuxi build packages/app",
+    "build:lite": "yarn prepare:lite && ROLLDOWN_OPTIONS_VALIDATION=loose nuxi build packages/lite",
+    "build:node": "yarn workspace rolldown-analyzer exec tsdown",
+    "build": "yarn build:app && yarn build:lite && yarn build:node",
+    "start:app": "nuxi preview packages/app",
+    "start:lite": "nuxi preview packages/lite",
     "prepack": "yarn build",
-    "build": "yarn dev:prepare && ROLLDOWN_OPTIONS_VALIDATION=loose nuxi build src && tsdown",
-    "build:debug": "NUXT_DEBUG_BUILD=true yarn run build",
-    "dev": "DEBUG='vite:devtools:*' ROLLDOWN_OPTIONS_VALIDATION=loose nuxi dev src",
-    "dev:prepare": "yarn generate-data && nuxi prepare src",
-    "start": "nuxi preview src",
-    "fmt": "oxfmt --check",
-    "fmt:fix": "oxfmt",
+    "typecheck": "vue-tsc --noEmit -p packages/app/.nuxt/tsconfig.app.json",
     "lint": "oxlint --type-aware --deny-warnings",
     "lint:fix": "oxlint --type-aware --deny-warnings --fix",
-    "typecheck": "tsc --noEmit",
-    "deploy:preview": "yarn generate-data && yarn build && mv rolldown-data.json dist/public/rolldown-data.json",
-    "generate-data": "LOGS_PATH=.data/logs.json META_PATH=.data/meta.json tsx generate.ts"
+    "fmt": "oxfmt --check",
+    "fmt:fix": "oxfmt"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.5",
@@ -103,7 +82,8 @@
     "tsdown": "^0.20.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "vite": "8.0.0-beta.15"
+    "vite": "8.0.0-beta.15",
+    "vue-tsc": "^3.2.5"
   },
   "packageManager": "yarn@4.12.0"
 }

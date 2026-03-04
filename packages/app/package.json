@@ -1,0 +1,10 @@
+{
+  "name": "@rolldown-analyzer/app",
+  "private": true,
+  "dependencies": {
+    "@rolldown-analyzer/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/splitpanes": "^2.2.6"
+  }
+}
