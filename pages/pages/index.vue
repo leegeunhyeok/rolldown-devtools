@@ -124,7 +124,7 @@ function handleBack() {
             Click to upload analyze.json
           </div>
           <div text-xs op-60>
-            JSON file from rolldown-analyzer
+            JSON file from bundle analyzer plugin
           </div>
         </div>
         <input type="file" accept=".json" hidden @change="handleFileUpload">
