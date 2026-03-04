@@ -8,6 +8,7 @@
     "./utils": "./utils/index.ts",
     "./utils/filepath": "./utils/filepath.ts",
     "./utils/guess-chunk-name": "./utils/guess-chunk-name.ts",
+    "./utils/convert-analyze-data": "./utils/convert-analyze-data.ts",
     "./constants": "./constants.ts",
     "./ui": "./ui/index.ts",
     "./ui/composables/dark": "./ui/composables/dark.ts",

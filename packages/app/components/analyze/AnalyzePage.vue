@@ -379,7 +379,7 @@ watch(colorMode, () => {
             @change="selectChunk(Number(($event.target as HTMLSelectElement).value))"
           >
             <option v-for="opt of chunkOptions" :key="opt.value" :value="opt.value">
-              {{ opt.label }} ({{ opt.modules }} modules)
+              {{ opt.label }} ({{ Intl.NumberFormat().format(opt.modules) }} modules)
             </option>
           </select>
         </div>
@@ -503,123 +503,137 @@ watch(colorMode, () => {
       </div>
     </DisplayGraphHoverView>
 
-    <!-- Module details panel -->
-    <Transition name="slide">
-      <div
-        v-if="selectedModuleId"
-        fixed
-        right-0
-        top-0
-        bottom-0
-        w-100
-        z-panel-content
-        bg-base
-        border="l base"
-        shadow-lg
-        flex="~ col"
-        of-hidden
-      >
-        <div flex="~ items-center gap-2" p3 border="b base">
-          <i i-ph-file-duotone flex-none op50 />
-          <span v-tooltip="selectedModuleId" flex-1 truncate text-sm font-mono>{{ toDisplayPath(selectedModuleId) }}</span>
-          <button
-            op50
-            hover="op100"
-            @click="closeImporterPanel"
+    <!-- Module details modal -->
+    <Teleport to="body">
+      <Transition name="fade">
+        <div
+          v-if="selectedModuleId"
+          fixed
+          inset-0
+          z-panel-content
+          backdrop-blur-8
+          backdrop-brightness-95
+          @click.self="closeImporterPanel"
+        >
+          <div
+            fixed
+            right-0
+            bottom-0
+            top-20
+            z-panel-content
+            bg-glass
+            border="l t base rounded-tl-xl"
+            flex="~ col"
+            of-hidden
+            class="left-20 xl:left-100 2xl:left-150"
           >
-            <i i-ph-x block />
-          </button>
-        </div>
-        <div flex-1 of-auto>
-          <!-- Import chain -->
-          <div v-if="importerChain.length > 1" px3 py2 border="b base">
-            <div flex="~ items-center gap-1" text-sm op50 mb2>
-              <i i-ph-path-duotone flex-none />
-              <span>Import chain</span>
+            <div flex="~ items-center gap-2" p3 border="b base">
+              <i i-ph-file-duotone flex-none op50 />
+              <span v-tooltip="selectedModuleId" flex-1 truncate text-sm font-mono>{{ toDisplayPath(selectedModuleId) }}</span>
+              <button
+                op50
+                hover="op100"
+                cursor-pointer
+                @click="closeImporterPanel"
+              >
+                <i i-ph-x block />
+              </button>
             </div>
-            <div flex="~ col">
-              <template v-for="(node, i) of [...importerChain].reverse()" :key="node.id">
-                <div flex="~ items-center" relative min-h-7>
-                  <!-- continuous vertical line (behind dot) -->
-                  <div w4 flex-none absolute left-0 top-0 bottom-0 flex justify-center>
-                    <!-- top half line -->
-                    <div
-                      v-if="i > 0"
-                      absolute top-0 h="1/2" w-0 border="l 1.5 base"
-                    />
-                    <!-- bottom half line -->
-                    <div
-                      v-if="i < importerChain.length - 1"
-                      absolute bottom-0 h="1/2" w-0 border="l 1.5 base"
-                    />
-                    <!-- dot -->
-                    <div
-                      absolute top="1/2" translate-y="-1/2"
-                      rounded-full z-1
-                      :class="node.id === selectedModuleId
-                        ? 'w-2.5 h-2.5 bg-primary'
-                        : 'w-2 h-2 bg-neutral-300 dark:bg-neutral-500'"
-                    />
-                  </div>
-                  <!-- label -->
-                  <button
-                    v-tooltip="node.displayPath"
-                    text-xs
-                    font-mono
-                    ml4
-                    px1.5
-                    py1
-                    rounded
-                    truncate
-                    text-left
-                    hover="bg-active"
-                    :class="node.id === selectedModuleId ? 'text-primary font-bold' : 'op70'"
-                    @click="selectedModuleId = node.id"
-                  >
-                    {{ node.displayPath }}
-                  </button>
+            <div flex-1 of-auto>
+              <!-- Import chain -->
+              <div v-if="importerChain.length > 1" px3 py2 border="b base">
+                <div flex="~ items-center gap-1" text-sm op50 mb2>
+                  <i i-ph-path-duotone flex-none />
+                  <span>Import chain</span>
                 </div>
+                <div flex="~ col">
+                  <template v-for="(node, i) of [...importerChain].reverse()" :key="node.id">
+                    <div flex="~ items-center" relative min-h-7>
+                      <!-- continuous vertical line (behind dot) -->
+                      <div w4 flex-none absolute left-0 top-0 bottom-0 flex justify-center>
+                        <!-- top half line -->
+                        <div
+                          v-if="i > 0"
+                          absolute top-0 h="1/2" w-0 border="l 1.5 base"
+                        />
+                        <!-- bottom half line -->
+                        <div
+                          v-if="i < importerChain.length - 1"
+                          absolute bottom-0 h="1/2" w-0 border="l 1.5 base"
+                        />
+                        <!-- dot -->
+                        <div
+                          absolute top="1/2" translate-y="-1/2"
+                          rounded-full z-1
+                          :class="node.id === selectedModuleId
+                            ? 'w-2.5 h-2.5 bg-primary'
+                            : 'w-2 h-2 bg-neutral-300 dark:bg-neutral-500'"
+                        />
+                      </div>
+                      <!-- label -->
+                      <button
+                        v-tooltip="node.displayPath"
+                        text-xs
+                        font-mono
+                        ml4
+                        px1.5
+                        py1
+                        rounded
+                        truncate
+                        text-left
+                        cursor-pointer
+                        hover="bg-active"
+                        :class="node.id === selectedModuleId ? 'text-primary font-bold' : 'op70'"
+                        @click="selectedModuleId = node.id"
+                      >
+                        {{ node.displayPath }}
+                      </button>
+                    </div>
+                  </template>
+                </div>
+              </div>
+
+              <!-- Importers -->
+              <div flex="~ items-center gap-2" px3 py2 border="b base" sticky top-0 z-1>
+                <i i-ph-arrow-bend-left-down-duotone flex-none op50 />
+                <span text-sm op50>Imported by ({{ selectedModuleImporters.length }})</span>
+              </div>
+              <div v-if="selectedModuleImporters.length === 0" p4 text-center op50 text-sm>
+                No importers found
+              </div>
+              <template v-for="imp of selectedModuleImporters" :key="imp.id">
+                <button
+                  w-full
+                  text-left
+                  px3
+                  py2
+                  cursor-pointer
+                  hover="bg-active"
+                  flex="~ col gap-1"
+                  border="b base"
+                  @click="selectedModuleId = imp.id"
+                >
+                  <span v-tooltip="imp.displayPath" text-sm font-mono truncate>{{ imp.displayPath }}</span>
+                  <DisplayFileSizeBadge v-if="imp.size" :bytes="imp.size" text-xs />
+                </button>
               </template>
             </div>
+            <div v-if="!standalone" border="t base" p2>
+              <button
+                w-full
+                btn-action
+                bg-active
+                justify-center
+                cursor-pointer
+                @click="$router.replace({ query: { ...$route.query, module: selectedModuleId } })"
+              >
+                <i i-ph-arrow-square-out-duotone />
+                Open Module Details
+              </button>
+            </div>
           </div>
-
-          <!-- Importers -->
-          <div flex="~ items-center gap-2" px3 py2 border="b base" sticky top-0 bg-base z-1>
-            <i i-ph-arrow-bend-left-down-duotone flex-none op50 />
-            <span text-sm op50>Imported by ({{ selectedModuleImporters.length }})</span>
-          </div>
-          <div v-if="selectedModuleImporters.length === 0" p4 text-center op50 text-sm>
-            No importers found
-          </div>
-          <template v-for="imp of selectedModuleImporters" :key="imp.id">
-            <button
-              w-full
-              text-left
-              px3
-              py2
-              hover="bg-active"
-              flex="~ col gap-1"
-              border="b base"
-              @click="selectedModuleId = imp.id"
-            >
-              <span v-tooltip="imp.displayPath" text-sm font-mono truncate>{{ imp.displayPath }}</span>
-              <DisplayFileSizeBadge v-if="imp.size" :bytes="imp.size" text-xs />
-            </button>
-          </template>
         </div>
-        <div v-if="!standalone" border="t base" p2>
-          <button
-            w-full
-            btn-action
-            bg-active
-            justify-center
-            @click="$router.replace({ query: { ...$route.query, module: selectedModuleId } })"
-          >
-            <i i-ph-arrow-square-out-duotone />
-            Open Module Details
-          </button>
-        </div>
-      </div>
-    </Transition>
+      </Transition>
+    </Teleport>
   </div>
 </template>

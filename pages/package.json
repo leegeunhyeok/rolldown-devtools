@@ -1,0 +1,8 @@
+{
+  "name": "@rolldown-analyzer/pages",
+  "private": true,
+  "dependencies": {
+    "@rolldown-analyzer/app": "workspace:*",
+    "@rolldown-analyzer/core": "workspace:*"
+  }
+}

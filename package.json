@@ -1,9 +1,10 @@
 {
-  "name": "rolldown-devtools",
+  "name": "rolldown-analyzer-root",
   "private": true,
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "pages"
   ],
   "scripts": {
     "prepare:app": "yarn generate-data && nuxi prepare packages/app",
@@ -13,6 +14,10 @@
     "dev:lite": "ROLLDOWN_OPTIONS_VALIDATION=loose nuxi dev packages/lite",
     "build:app": "yarn prepare:app && ROLLDOWN_OPTIONS_VALIDATION=loose nuxi build packages/app",
     "build:lite": "yarn prepare:lite && ROLLDOWN_OPTIONS_VALIDATION=loose nuxi build packages/lite",
+    "prepare:pages": "nuxi prepare pages",
+    "dev:pages": "ROLLDOWN_OPTIONS_VALIDATION=loose nuxi dev pages",
+    "build:pages": "yarn prepare:app && yarn prepare:pages && ROLLDOWN_OPTIONS_VALIDATION=loose nuxi build pages",
+    "start:pages": "nuxi preview pages",
     "build:node": "yarn workspace rolldown-analyzer exec tsdown",
     "build": "yarn build:app && yarn build:lite && yarn build:node",
     "start:app": "nuxi preview packages/app",
