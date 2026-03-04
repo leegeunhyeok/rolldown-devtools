@@ -2,10 +2,9 @@
 
 Standalone Analyzer for Rolldown
 
-> [!IMPORTANT]
-> This project is still in development.
-
 ## Preview
+
+**Full Template**
 
 [Live Demo](https://rolldown-analyzer.vercel.app)
 
@@ -19,7 +18,17 @@ Standalone Analyzer for Rolldown
 
 ![packages](./preview/packages.png)
 
-## Usage
+---
+
+**Lite Template**
+
+[Live Demo](https://leegeunhyeok.github.io/rolldown-analyzer/)
+
+![lite-home](./preview/lite-home.png)
+
+![lite-bundle](./preview/lite-bundle.png)
+
+## Installation
 
 ```bash
 # npm
@@ -32,7 +41,39 @@ pnpm install rolldown-analyzer
 yarn add rolldown-analyzer
 ```
 
-### Configure Rolldown
+## Usage
+
+There are two template types available:
+
+- **Full Template**: Based on Rolldown DevTools integration (`logs.json` + `meta.json`). Provides rich information including module details, plugin metrics, module graph, chunks, assets, and package analysis. Generated as a multi-file static site.
+- **Lite Template**: Based on Rolldown experimental `bundleAnalyzerPlugin` (`analyze-data.json`). Focused on bundle visualization. Generated as a **single HTML file** with all assets inlined.
+
+### CLI
+
+You can also use the analyzer from the command line:
+
+```bash
+# Full template
+npx rolldown-analyzer generate -t full \
+  --logs node_modules/.rolldown/<session_id>/logs.json \
+  --meta node_modules/.rolldown/<session_id>/meta.json \
+  -o ./report
+
+# Lite template
+npx rolldown-analyzer generate -t lite \
+  --data ./bundle-analysis.json \
+  -o ./report
+
+# Generate only the JSON data (without template)
+npx rolldown-analyzer generate-data \
+  --logs node_modules/.rolldown/<session_id>/logs.json \
+  --meta node_modules/.rolldown/<session_id>/meta.json \
+  -o ./data.json
+```
+
+### Full Template
+
+#### Configure Rolldown
 
 Enable the DevTools integration in your Rolldown build configuration:
 
@@ -52,14 +93,14 @@ When DevTools is enabled, Rolldown generates the following files that the analyz
 - `node_modules/.rolldown/<session_id>/meta.json`
 - `node_modules/.rolldown/<session_id>/logs.json`
 
-### Generate Analyze Report
+#### Generate Analyze Report
 
-Use `generateTemplate` to produce a standalone analysis page:
+Use `generateDevtools` to produce a standalone analysis page:
 
 ```ts
-import { generateTemplate } from 'rolldown-analyzer';
+import { generateDevtools } from 'rolldown-analyzer';
 
-await generateTemplate({
+await generateDevtools({
   logsPath: 'node_modules/.rolldown/<session_id>/logs.json',
   metaPath: 'node_modules/.rolldown/<session_id>/meta.json',
   outDir: './report',
@@ -72,25 +113,69 @@ This copies the built frontend files and a generated `rolldown-data.json` into t
 npx serve ./report
 ```
 
-### CLI
+### Lite Template
 
-You can also use the analyzer from the command line:
+#### Configure Rolldown
 
-```bash
-# Generate a standalone analysis page
-npx rolldown-analyzer generate \
-  --logs node_modules/.rolldown/<session_id>/logs.json \
-  --meta node_modules/.rolldown/<session_id>/meta.json \
-  -o ./report
+Use the experimental `bundleAnalyzerPlugin` in your Rolldown build configuration:
 
-# Generate only the JSON data
-npx rolldown-analyzer generate-data \
-  --logs node_modules/.rolldown/<session_id>/logs.json \
-  --meta node_modules/.rolldown/<session_id>/meta.json \
-  -o ./data.json
+```ts
+import * as rolldown from 'rolldown';
+import { bundleAnalyzerPlugin } from 'rolldown/experimental';
+
+const buildOptions: rolldown.BuildOptions = {
+  plugins: [bundleAnalyzerPlugin()], // Defaults to `analyze-data.json`
+  // ...
+};
+
+await rolldown.build(buildOptions);
 ```
 
-### `generateData`
+This generates a `analyze-data.json` file that the analyzer uses.
+
+#### Generate Analyze Report
+
+Use `generateAnalyzer` to produce a single HTML report:
+
+```ts
+import { generateAnalyzer } from 'rolldown-analyzer';
+
+generateAnalyzer({
+  dataPath: './analyze-data.json',
+  outDir: './report',
+});
+```
+
+### APIs
+
+#### `generateDevtools`
+
+Generates a full template static site from DevTools data:
+
+```ts
+import { generateDevtools } from 'rolldown-analyzer';
+
+await generateDevtools({
+  logsPath: 'node_modules/.rolldown/<session_id>/logs.json',
+  metaPath: 'node_modules/.rolldown/<session_id>/meta.json',
+  outDir: './report',
+});
+```
+
+#### `generateAnalyzer`
+
+Generates a lite template single HTML file from analyzer data:
+
+```ts
+import { generateAnalyzer } from 'rolldown-analyzer';
+
+generateAnalyzer({
+  dataPath: './bundle-analysis.json',
+  outDir: './report',
+});
+```
+
+#### `generateData`
 
 If you only need the raw data without the frontend, use `generateData` instead:
 
