@@ -71,7 +71,7 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/',
     head: {
-      title: 'Rolldown Analyze',
+      title: 'Rolldown Analyzer',
       charset: 'utf-8',
       viewport: 'width=device-width,initial-scale=1',
       meta: [{ name: 'description', content: 'Rolldown Bundle Analyzer' }],

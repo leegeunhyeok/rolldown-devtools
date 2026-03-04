@@ -6,7 +6,7 @@ import '../packages/app/styles/global.css';
 import '@rolldown-analyzer/core/ui/composables/dark';
 
 useHead({
-  title: 'Rolldown Analyze',
+  title: 'Rolldown Analyzer',
 });
 </script>
 
