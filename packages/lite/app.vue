@@ -15,6 +15,6 @@ const { session } = useData();
 
 <template>
   <div h-screen w-screen max-w-screen max-h-screen of-hidden>
-    <NuxtPage :session="session" />
+    <AnalyzePage :session="session" standalone />
   </div>
 </template>

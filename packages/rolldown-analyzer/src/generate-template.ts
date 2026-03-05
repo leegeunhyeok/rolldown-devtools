@@ -41,14 +41,12 @@ export function generateAnalyzer(options: GenerateAnalyzerOptions): void {
   }
 
   const json = fs.readFileSync(dataPath, 'utf-8');
-
-  // Validate JSON
-  JSON.parse(json);
+  const parsedJson = JSON.parse(json);
 
   let html = fs.readFileSync(htmlPath, 'utf-8');
   html = html.replace(
     'window.__ANALYZE_DATA__ = window.__ANALYZE_DATA__ || {};',
-    `window.__ANALYZE_DATA__ = ${json};`,
+    `window.__ANALYZE_DATA__ = ${JSON.stringify(parsedJson)};`,
   );
 
   fs.mkdirSync(outDir, { recursive: true });

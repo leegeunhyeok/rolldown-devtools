@@ -9,8 +9,8 @@ export default defineNuxtConfig({
   ssr: false,
   modules: ['@vueuse/nuxt', '@unocss/nuxt'],
   experimental: {
-    typedPages: true,
     clientNodeCompat: true,
+    appManifest: false,
   },
   features: {
     inlineStyles: false,
@@ -54,15 +54,10 @@ export default defineNuxtConfig({
         },
       );
 
-      // Inline modulepreload as regular script
+      // Remove modulepreload links (already inlined via script tags above)
       html = html.replace(
-        /<link\s+rel="modulepreload"\s+as="script"\s+crossorigin\s+href="([^"]+)"[^>]*>/g,
-        (_match, href: string) => {
-          const filePath = path.join(publicDir, href);
-          if (!fs.existsSync(filePath)) return '';
-          const js = fs.readFileSync(filePath, 'utf-8');
-          return `<script type="module">${js}</script>`;
-        },
+        /<link\s+rel="modulepreload"\s+as="script"\s+crossorigin\s+href="[^"]*"[^>]*>/g,
+        '',
       );
 
       fs.writeFileSync(htmlPath, html);
